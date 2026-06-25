@@ -99,28 +99,43 @@ def create_app() -> FastAPI:
   <style>
     :root {
       color-scheme: light;
-      --bg: #f6f8fb;
+      --bg: #eef4fb;
       --panel: #ffffff;
-      --text: #172033;
-      --muted: #5d6980;
-      --line: #d8deea;
-      --accent: #1769e0;
-      --accent-dark: #0f4fb0;
+      --panel-soft: #f8fbff;
+      --text: #102033;
+      --muted: #5f6f84;
+      --line: #d7e1ee;
+      --accent: #0b72e7;
+      --accent-dark: #0758b5;
+      --accent-soft: #e6f1ff;
+      --success: #168a4a;
+      --success-soft: #e8f8ef;
+      --warning: #a65f00;
+      --warning-soft: #fff5df;
       --danger: #b42318;
+      --danger-soft: #fff0ee;
+      --shadow: 0 18px 45px rgba(18, 44, 78, .12);
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top left, rgba(11, 114, 231, .14), transparent 30%),
+        linear-gradient(180deg, #f7fbff 0%, var(--bg) 44%, #f9fbfe 100%);
       color: var(--text);
     }
+    a { color: inherit; }
     header {
-      border-bottom: 1px solid var(--line);
-      background: var(--panel);
+      border-bottom: 1px solid rgba(215, 225, 238, .9);
+      background: rgba(255, 255, 255, .86);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
     .wrap {
-      width: min(1120px, calc(100% - 32px));
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
     }
     .topbar {
@@ -128,45 +143,136 @@ def create_app() -> FastAPI:
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding: 18px 0;
+      padding: 14px 0;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .logo {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      color: #fff;
+      background: linear-gradient(135deg, #0b72e7, #12a166);
+      font-weight: 900;
+      box-shadow: 0 10px 24px rgba(11, 114, 231, .22);
+    }
+    .brand strong {
+      display: block;
+      font-size: 18px;
+    }
+    .brand span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
     }
     h1 {
       margin: 0;
-      font-size: clamp(24px, 4vw, 38px);
+      font-size: clamp(34px, 6vw, 68px);
       line-height: 1.1;
+    }
+    h2 {
+      margin: 0;
+      font-size: 22px;
     }
     .status {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border: 1px solid #b7e2c5;
+      border: 1px solid #b8e4c9;
       border-radius: 999px;
       padding: 8px 12px;
-      background: #edf9f1;
-      color: #146c2e;
+      background: var(--success-soft);
+      color: #146c3c;
       font-weight: 700;
       white-space: nowrap;
     }
-    main { padding: 28px 0 40px; }
-    .intro {
+    .navlinks {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .navlinks a {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: #fff;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    main { padding: 32px 0 44px; }
+    .hero {
       display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 20px;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
+      gap: 22px;
       align-items: stretch;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
     .panel {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .hero-card {
+      min-height: 330px;
+      display: grid;
+      align-content: center;
+      padding: 34px;
+      background:
+        linear-gradient(135deg, rgba(11, 114, 231, .12), rgba(22, 138, 74, .12)),
+        #ffffff;
+    }
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      border: 1px solid #bfd8f4;
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: #0758b5;
+      background: var(--accent-soft);
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 18px;
     }
     .lead {
-      margin: 12px 0 0;
+      margin: 16px 0 0;
       color: var(--muted);
-      font-size: 17px;
+      font-size: 18px;
       line-height: 1.6;
       max-width: 760px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .hero-actions a, .secondary-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border-radius: 8px;
+      padding: 0 14px;
+      text-decoration: none;
+      font-weight: 900;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+    }
+    .hero-actions a:first-child {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
     }
     .metrics {
       display: grid;
@@ -176,22 +282,62 @@ def create_app() -> FastAPI:
     .metric {
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 12px;
-      background: #fbfcff;
+      padding: 16px;
+      background: var(--panel-soft);
     }
     .metric strong {
       display: block;
-      font-size: 20px;
+      font-size: 24px;
       margin-bottom: 4px;
     }
     .metric span {
       color: var(--muted);
       font-size: 13px;
     }
+    .submission-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .submission-item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: rgba(255, 255, 255, .9);
+      box-shadow: 0 10px 30px rgba(18, 44, 78, .08);
+    }
+    .submission-item .dot {
+      display: grid;
+      place-items: center;
+      flex: 0 0 34px;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+    }
+    .submission-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .submission-item strong {
+      display: block;
+      margin-top: 2px;
+      overflow-wrap: anywhere;
+    }
     .workspace {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(320px, .9fr);
-      gap: 20px;
+      grid-template-columns: minmax(0, .95fr) minmax(360px, 1.05fr);
+      gap: 22px;
+      align-items: start;
     }
     label {
       display: block;
@@ -206,6 +352,10 @@ def create_app() -> FastAPI:
       font: inherit;
       color: var(--text);
       background: #fff;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: 3px solid rgba(11, 114, 231, .16);
+      border-color: var(--accent);
     }
     textarea {
       min-height: 170px;
@@ -230,6 +380,20 @@ def create_app() -> FastAPI:
     }
     button:hover { background: var(--accent-dark); }
     button:disabled { opacity: .65; cursor: wait; }
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+    .back-button {
+      width: auto;
+      min-width: 110px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+    }
+    .back-button:hover { background: var(--panel-soft); }
     .quick {
       display: flex;
       flex-wrap: wrap;
@@ -245,15 +409,100 @@ def create_app() -> FastAPI:
       font-weight: 700;
       padding: 8px 10px;
     }
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 12px 0 0;
+    }
     .result {
-      min-height: 310px;
+      min-height: 450px;
       display: grid;
       align-content: start;
-      gap: 12px;
+      gap: 14px;
+      position: sticky;
+      top: 92px;
+      overflow: hidden;
+    }
+    .result::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 6px;
+      background: linear-gradient(90deg, var(--accent), #16a166);
     }
     .empty {
       color: var(--muted);
       line-height: 1.6;
+    }
+    .empty-state {
+      display: grid;
+      place-items: center;
+      min-height: 270px;
+      border: 1px dashed #bfd0e2;
+      border-radius: 8px;
+      background: var(--panel-soft);
+      text-align: center;
+      padding: 22px;
+    }
+    .empty-state strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+    .result-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-top: 6px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      white-space: nowrap;
+    }
+    .badge.critical { background: var(--danger-soft); color: var(--danger); }
+    .badge.high { background: var(--warning-soft); color: var(--warning); }
+    .badge.low, .badge.medium { background: var(--success-soft); color: var(--success); }
+    .confidence-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: linear-gradient(180deg, #fff, var(--panel-soft));
+    }
+    .confidence-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+    .confidence-top strong {
+      font-size: 30px;
+      color: var(--accent-dark);
+    }
+    .bar {
+      height: 10px;
+      background: #dfe8f3;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar span {
+      display: block;
+      height: 100%;
+      width: var(--confidence);
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), #16a166);
     }
     .result-grid {
       display: grid;
@@ -276,9 +525,27 @@ def create_app() -> FastAPI:
       margin-bottom: 6px;
     }
     .summary { grid-column: 1 / -1; }
+    .json-box {
+      grid-column: 1 / -1;
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      max-height: 220px;
+      overflow: auto;
+      background: #0f1e2f;
+      color: #e8f2ff;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
     .error {
       color: var(--danger);
       font-weight: 700;
+      border: 1px solid #ffc8c1;
+      background: var(--danger-soft);
+      border-radius: 8px;
+      padding: 14px;
     }
     footer {
       color: var(--muted);
@@ -287,37 +554,74 @@ def create_app() -> FastAPI:
     }
     footer a { color: var(--accent); font-weight: 700; }
     @media (max-width: 820px) {
-      .intro, .workspace, .row, .result-grid { grid-template-columns: 1fr; }
+      .hero, .workspace, .row, .result-grid, .submission-strip { grid-template-columns: 1fr; }
       .topbar { align-items: flex-start; flex-direction: column; }
+      .navlinks { flex-wrap: wrap; }
+      .hero-card { padding: 22px; min-height: auto; }
+      .result { position: static; }
+      .button-row { grid-template-columns: 1fr; }
+      .back-button { width: 100%; }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap topbar">
-      <h1>QueueStorm Ticket Sorter</h1>
-      <div class="status">Online</div>
+      <div class="brand">
+        <div class="logo">QS</div>
+        <div>
+          <strong>QueueStorm Ticket Sorter</strong>
+          <span>Full-stack fintech support classifier</span>
+        </div>
+      </div>
+      <div class="navlinks">
+        <a href="/docs">API Docs</a>
+        <a href="/health">Health</a>
+        <div class="status">Online</div>
+      </div>
     </div>
   </header>
   <main class="wrap">
-    <section class="intro">
-      <div class="panel">
-        <h2>Classify fintech support tickets instantly</h2>
+    <section class="hero">
+      <div class="panel hero-card">
+        <div class="eyebrow">SUST CSE Carnival 2026 - QueueStorm</div>
+        <h1>Smart support routing for fintech tickets</h1>
         <p class="lead">
-          Enter a customer ticket to predict the case type, severity, department,
-          agent summary, review requirement, and model confidence.
+          A complete web interface backed by a CPU-friendly hybrid classifier.
+          Submit a support ticket and get a routing-ready decision in one click.
         </p>
+        <div class="hero-actions">
+          <a href="#sorter">Try the sorter</a>
+          <a href="/docs">View API</a>
+        </div>
       </div>
       <div class="panel metrics" aria-label="Service capabilities">
         <div class="metric"><strong>Hybrid</strong><span>Rules + TF-IDF Logistic Regression</span></div>
         <div class="metric"><strong>CPU</strong><span>No GPU or external LLM needed</span></div>
         <div class="metric"><strong>Safe</strong><span>Fraud and credential-risk handling</span></div>
-        <div class="metric"><strong>FastAPI</strong><span>Docs available at /docs</span></div>
+        <div class="metric"><strong>Live</strong><span>Interactive UI plus REST API</span></div>
       </div>
     </section>
 
-    <section class="workspace">
+    <section class="submission-strip" aria-label="Submission format">
+      <div class="submission-item">
+        <div class="dot">ID</div>
+        <div><span>Ticket ID</span><strong id="preview-ticket-id">T-WEB-001</strong></div>
+      </div>
+      <div class="submission-item">
+        <div class="dot">CH</div>
+        <div><span>Channel</span><strong id="preview-channel">app</strong></div>
+      </div>
+      <div class="submission-item">
+        <div class="dot">LC</div>
+        <div><span>Locale</span><strong id="preview-locale">en</strong></div>
+      </div>
+    </section>
+
+    <section class="workspace" id="sorter">
       <form class="panel" id="ticket-form">
+        <h2>Ticket Submission</h2>
+        <p class="hint">The fields below match the request payload sent to <strong>POST /sort-ticket</strong>.</p>
         <div class="row">
           <div>
             <label for="ticket-id">Ticket ID</label>
@@ -345,13 +649,22 @@ def create_app() -> FastAPI:
           <button type="button" data-example="payment">Payment failed</button>
           <button type="button" data-example="fraud">Fraud risk</button>
         </div>
-        <button id="submit-button" type="submit">Sort Ticket</button>
+        <div class="button-row">
+          <button id="submit-button" type="submit">Sort Ticket</button>
+          <button class="back-button" id="back-button" type="button">Back</button>
+        </div>
       </form>
 
       <section class="panel result" aria-live="polite">
-        <h2>Classification Result</h2>
-        <div id="result" class="empty">
-          Submit a ticket to see the predicted routing decision here.
+        <div class="result-head">
+          <h2>Decision Board</h2>
+          <span class="badge" id="result-status">Waiting</span>
+        </div>
+        <div id="result" class="empty-state">
+          <div>
+            <strong>Ready for classification</strong>
+            Submit a ticket to see the predicted department, severity, confidence, and agent summary.
+          </div>
         </div>
       </section>
     </section>
@@ -367,23 +680,72 @@ def create_app() -> FastAPI:
       fraud: "Someone called me and asked for my OTP and PIN. After that money was taken from my account."
     };
 
+    const fields = {
+      ticketId: document.getElementById("ticket-id"),
+      channel: document.getElementById("channel"),
+      locale: document.getElementById("locale"),
+      message: document.getElementById("message")
+    };
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function syncSubmissionPreview() {
+      document.getElementById("preview-ticket-id").textContent = fields.ticketId.value || "T-WEB-001";
+      document.getElementById("preview-channel").textContent = fields.channel.value;
+      document.getElementById("preview-locale").textContent = fields.locale.value;
+    }
+
+    Object.values(fields).forEach((field) => {
+      field.addEventListener("input", syncSubmissionPreview);
+      field.addEventListener("change", syncSubmissionPreview);
+    });
+
     document.querySelectorAll("[data-example]").forEach((button) => {
       button.addEventListener("click", () => {
-        document.getElementById("message").value = examples[button.dataset.example];
+        fields.message.value = examples[button.dataset.example];
+        if (button.dataset.example === "fraud") {
+          fields.channel.value = "sms";
+        }
+        syncSubmissionPreview();
       });
+    });
+
+    document.getElementById("back-button").addEventListener("click", () => {
+      document.getElementById("sorter").scrollIntoView({behavior: "smooth", block: "start"});
+      fields.message.focus();
     });
 
     function renderResult(data) {
       const result = document.getElementById("result");
+      const confidence = Math.round(data.confidence * 100);
+      const severity = escapeHtml(data.severity);
+      const status = document.getElementById("result-status");
+      status.textContent = severity;
+      status.className = `badge ${severity}`;
       result.className = "result-grid";
       result.innerHTML = `
-        <div class="field"><span>Ticket ID</span>${data.ticket_id}</div>
-        <div class="field"><span>Confidence</span>${Math.round(data.confidence * 100)}%</div>
-        <div class="field"><span>Case Type</span>${data.case_type}</div>
-        <div class="field"><span>Severity</span>${data.severity}</div>
-        <div class="field"><span>Department</span>${data.department}</div>
+        <div class="confidence-card summary">
+          <div class="confidence-top">
+            <span>Model confidence</span>
+            <strong>${confidence}%</strong>
+          </div>
+          <div class="bar" style="--confidence: ${confidence}%"><span></span></div>
+        </div>
+        <div class="field"><span>Ticket ID</span>${escapeHtml(data.ticket_id)}</div>
+        <div class="field"><span>Case Type</span>${escapeHtml(data.case_type)}</div>
+        <div class="field"><span>Severity</span>${severity}</div>
+        <div class="field"><span>Department</span>${escapeHtml(data.department)}</div>
         <div class="field"><span>Human Review</span>${data.human_review_required ? "Required" : "Not required"}</div>
-        <div class="field summary"><span>Agent Summary</span>${data.agent_summary}</div>
+        <div class="field"><span>Submission Format</span>${escapeHtml(fields.channel.value)} / ${escapeHtml(fields.locale.value)}</div>
+        <div class="field summary"><span>Agent Summary</span>${escapeHtml(data.agent_summary)}</div>
+        <pre class="json-box">${escapeHtml(JSON.stringify(data, null, 2))}</pre>
       `;
     }
 
@@ -391,16 +753,19 @@ def create_app() -> FastAPI:
       event.preventDefault();
       const button = document.getElementById("submit-button");
       const result = document.getElementById("result");
+      const status = document.getElementById("result-status");
       button.disabled = true;
       button.textContent = "Sorting...";
-      result.className = "empty";
+      status.textContent = "Sorting";
+      status.className = "badge";
+      result.className = "empty-state";
       result.textContent = "Classifying ticket...";
 
       const payload = {
-        ticket_id: document.getElementById("ticket-id").value,
-        channel: document.getElementById("channel").value,
-        locale: document.getElementById("locale").value,
-        message: document.getElementById("message").value
+        ticket_id: fields.ticketId.value,
+        channel: fields.channel.value,
+        locale: fields.locale.value,
+        message: fields.message.value
       };
 
       try {
@@ -415,6 +780,8 @@ def create_app() -> FastAPI:
         }
         renderResult(data);
       } catch (error) {
+        status.textContent = "Error";
+        status.className = "badge critical";
         result.className = "error";
         result.textContent = `Unable to classify ticket: ${error.message}`;
       } finally {
@@ -422,6 +789,8 @@ def create_app() -> FastAPI:
         button.textContent = "Sort Ticket";
       }
     });
+
+    syncSubmissionPreview();
   </script>
 </body>
 </html>
