@@ -7,6 +7,14 @@ from app.main import app
 client = TestClient(app)
 
 
+def test_root_web_ui() -> None:
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "text/html" in response.headers["content-type"]
+    assert "QueueStorm Ticket Sorter" in response.text
+    assert "Sort Ticket" in response.text
+
+
 def test_health() -> None:
     response = client.get("/health")
     assert response.status_code == 200
