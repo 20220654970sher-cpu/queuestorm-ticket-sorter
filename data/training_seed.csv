@@ -1,0 +1,71 @@
+message,case_type,severity
+"I sent 5000 taka to a wrong number this morning please help",wrong_transfer,high
+"Transferred money to wrong recipient by mistake",wrong_transfer,medium
+"I accidentally sent cash to an incorrect mobile number",wrong_transfer,high
+"Wrong account transfer please reverse it",wrong_transfer,high
+"Sent 300 tk to mistaken number",wrong_transfer,medium
+"ভুল number এ ২০০০ টাকা পাঠিয়েছি",wrong_transfer,high
+"I sent money to wrong bkash account",wrong_transfer,high
+"Mistake transfer to another user",wrong_transfer,medium
+"Please recover money sent to wrong mobile",wrong_transfer,high
+"I paid the wrong person from app",wrong_transfer,medium
+"I sent 70000 taka to the wrong number urgent",wrong_transfer,critical
+"wrong recipient transfer and merchant did not receive",wrong_transfer,high
+"Payment failed but balance deducted",payment_failed,medium
+"My transaction failed and money was deducted",payment_failed,medium
+"Bill payment failed but account charged",payment_failed,medium
+"Merchant did not receive my payment but I was debited",payment_failed,high
+"Send money failed and status is pending",payment_failed,medium
+"Top up failed after recharge",payment_failed,low
+"Cash out failed but balance cut",payment_failed,medium
+"পেমেন্ট failed কিন্তু টাকা কেটে গেছে",payment_failed,medium
+"Transaction pending for 2 hours",payment_failed,medium
+"I was charged 25000 but payment not completed",payment_failed,high
+"Payment error during checkout",payment_failed,low
+"Card charged but order did not go through",payment_failed,medium
+"Need refund for cancelled order",refund_request,medium
+"Please refund my money",refund_request,medium
+"I want cashback missing refund",refund_request,low
+"Merchant promised refund but not received",refund_request,medium
+"Return my money for failed order",refund_request,medium
+"Refund request for duplicate payment",refund_request,medium
+"রিফান্ড চাই অর্ডার cancel হয়েছে",refund_request,medium
+"Need chargeback for merchant dispute",refund_request,high
+"I cancelled order and need money back",refund_request,medium
+"Reverse this payment please",refund_request,medium
+"Refund 30000 taka for cancelled booking",refund_request,high
+"Cashback missing from campaign",refund_request,low
+"Someone asked for my OTP and took money",phishing_or_social_engineering,critical
+"I clicked a fake login link and account may be hacked",phishing_or_social_engineering,critical
+"Unknown caller asked for PIN",phishing_or_social_engineering,critical
+"I shared password with fake agent",phishing_or_social_engineering,critical
+"Scammer called pretending to be support",phishing_or_social_engineering,high
+"Unauthorized transaction happened from my account",phishing_or_social_engineering,critical
+"My account hacked and all money gone",phishing_or_social_engineering,critical
+"Fraud link sent to me on SMS",phishing_or_social_engineering,high
+"Phishing message asks to verify account",phishing_or_social_engineering,high
+"প্রতারক ওটিপি নিয়ে টাকা নিয়েছে",phishing_or_social_engineering,critical
+"Someone asked me for my code and login",phishing_or_social_engineering,critical
+"Suspicious agent requested my pin",phishing_or_social_engineering,critical
+"How can I change my phone number",other,low
+"I need to update my profile name",other,low
+"App is slow today",other,low
+"Where can I find account statement",other,low
+"Need help understanding fees",other,low
+"I cannot see notification settings",other,low
+"How to increase transaction limit",other,medium
+"My KYC verification is pending",other,medium
+"Login page loading slowly",other,low
+"I want to close my account",other,medium
+"Need help with language settings",other,low
+"General question about service charge",other,low
+"paymnt faild but mony deductd",payment_failed,medium
+"refnd not recived for cancel order",refund_request,medium
+"wrong numbr send money",wrong_transfer,high
+"scamr asked otp",phishing_or_social_engineering,critical
+"unauthorised debit from wallet",phishing_or_social_engineering,critical
+"merchant payment pending and deducted",payment_failed,medium
+"refund for wrong merchant payment",refund_request,high
+"money back needed after duplicate charge",refund_request,medium
+"account locked after suspicious link",phishing_or_social_engineering,critical
+"sent taka to wrong person please help",wrong_transfer,high
