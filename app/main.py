@@ -86,6 +86,16 @@ def create_app() -> FastAPI:
             content=error.model_dump(),
         )
 
+    @app.get("/", tags=["service"])
+    def root() -> dict[str, str]:
+        return {
+            "name": settings.app_name,
+            "status": "online",
+            "docs": "/docs",
+            "health": "/health",
+            "sort_ticket": "/sort-ticket",
+        }
+
     app.include_router(v1_router, prefix=settings.api_prefix)
     # Root compatibility endpoints for hackathon judges that call exact paths.
     app.include_router(v1_router)
