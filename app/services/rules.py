@@ -85,6 +85,12 @@ class KeywordRuleEngine:
         "transaction failed",
         "cash out failed",
         "send money failed",
+        "sent but failed",
+        "sent taka but failed",
+        "sent money but failed",
+        "money deducted but failed",
+        "taka deducted",
+        "not received",
         "top up failed",
         "recharge failed",
         "bill payment failed",
@@ -101,6 +107,8 @@ class KeywordRuleEngine:
     REFUND_PHRASES = (
         "refund",
         "refund request",
+        "refund chai",
+        "ferot",
         "return my money",
         "money back",
         "cashback missing",
@@ -144,9 +152,16 @@ class KeywordRuleEngine:
         if _has_any(text, self.WRONG_TRANSFER_PHRASES) or ("wrong" in tokens and wrong_target):
             scores[CaseType.WRONG_TRANSFER] += 0.88
             reasons.append("wrong recipient transfer pattern detected")
-        failed_status = "failed" in tokens or "pending" in tokens
+        failed_status = "failed" in tokens or "pending" in tokens or "not received" in text
         payment_target = "payment" in tokens or "transaction" in tokens
-        if _has_any(text, self.PAYMENT_FAILED_PHRASES) or (failed_status and payment_target):
+        money_movement_target = any(
+            token in tokens for token in ("sent", "send", "money", "taka", "mobile_money")
+        )
+        if (
+            _has_any(text, self.PAYMENT_FAILED_PHRASES)
+            or (failed_status and payment_target)
+            or (failed_status and money_movement_target)
+        ):
             scores[CaseType.PAYMENT_FAILED] += 0.86
             reasons.append("payment failure pattern detected")
         if _has_any(text, self.REFUND_PHRASES) or _fuzzy_contains(tokens, ["refund", "cashback"]):

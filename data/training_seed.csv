@@ -69,3 +69,15 @@ message,case_type,severity
 "money back needed after duplicate charge",refund_request,medium
 "account locked after suspicious link",phishing_or_social_engineering,critical
 "sent taka to wrong person please help",wrong_transfer,high
+"Ami 500 tk disi kintu jaay nai",payment_failed,medium
+"Ami 1000 taka pathaisi kintu hoy nai",payment_failed,medium
+"Amar 750 tk kete geche kintu merchant pay nai",payment_failed,medium
+"Send money korlam but receiver pai nai",payment_failed,medium
+"Ami 500 tk vul number e disi",wrong_transfer,medium
+"Bhul number e 2000 taka pathaisi",wrong_transfer,high
+"Onno number e taka chole gese",wrong_transfer,high
+"Refund chai amar taka ferot pai nai",refund_request,medium
+"Order cancel hoise taka ferot chai",refund_request,medium
+"Scammer amar otp niye taka niye niche",phishing_or_social_engineering,critical
+"Unknown caller pin chaise ami dise taka nai",phishing_or_social_engineering,critical
+"Fake link e click korar por account hacked",phishing_or_social_engineering,critical

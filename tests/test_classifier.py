@@ -56,3 +56,47 @@ def test_summary_never_requests_credentials() -> None:
     assert "provide your otp" not in summary
     assert "password" not in summary
     assert "card number" not in summary
+
+
+def test_romanized_bangla_payment_failed() -> None:
+    service = make_service()
+    response = service.sort(
+        TicketRequest(
+            ticket_id="U-004",
+            channel="app",
+            locale="bn",
+            message="Ami 500 tk disi kintu jaay nai",
+        )
+    )
+    assert response.case_type == CaseType.PAYMENT_FAILED
+    assert response.department.value == "payments_ops"
+    assert response.severity in {Severity.MEDIUM, Severity.HIGH}
+
+
+def test_romanized_bangla_wrong_transfer() -> None:
+    service = make_service()
+    response = service.sort(
+        TicketRequest(
+            ticket_id="U-005",
+            channel="app",
+            locale="bn",
+            message="Ami 500 tk vul number e disi",
+        )
+    )
+    assert response.case_type == CaseType.WRONG_TRANSFER
+    assert response.department.value == "dispute_resolution"
+
+
+def test_romanized_bangla_phishing() -> None:
+    service = make_service()
+    response = service.sort(
+        TicketRequest(
+            ticket_id="U-006",
+            channel="sms",
+            locale="bn",
+            message="Scammer amar otp niye taka niye niche",
+        )
+    )
+    assert response.case_type == CaseType.PHISHING_OR_SOCIAL_ENGINEERING
+    assert response.department.value == "fraud_risk"
+    assert response.human_review_required is True
